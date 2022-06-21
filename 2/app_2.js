@@ -49,18 +49,22 @@ class App {
     this._scene.add(light);
   }
   _setupModel() {
-    // BufferGeometry
+    const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2); //가로 세로 깊이 // segments
+    const fillMaterial = new THREE.MeshPhongMaterial({ color: 0x515151 });
+    const cube = new THREE.Mesh(geometry, fillMaterial);
 
-    // 3차원 객체로 구성 (장면)
-    // light
-    // mesh(object3d) =>geometry(형상) / material(색상/투명도 등)
-    const geometry = new THREE.BoxGeometry(1, 1, 1); //가로 세로 깊이
-    const material = new THREE.MeshPhongMaterial({ color: 0x44a88 });
+    const lineMeterial = new THREE.LineBasicMaterial({ color: 0xffff00 });
+    const line = new THREE.LineSegments(
+      new THREE.WireframeGeometry(geometry),
+      lineMeterial
+    );
 
-    const cube = new THREE.Mesh(geometry, material);
+    const group = new THREE.Group();
+    group.add(cube);
+    group.add(line);
 
-    this._scene.add(cube);
-    this._cube = cube;
+    this._scene.add(group);
+    this._cube = group;
   }
   resize() {
     const width = this._divContainer.clientWidth;
@@ -81,8 +85,8 @@ class App {
 
   update(time) {
     time *= 0.001; // second
-    this._cube.rotateX = time;
-    this._cube.rotateY = time;
+    // this._cube.rotation.x = time;
+    // this._cube.rotation.y = time;
   }
 }
 
