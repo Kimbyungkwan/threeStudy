@@ -1,23 +1,27 @@
 import { Canvas } from '@react-three/fiber';
-import { Cloud, OrbitControls, Stars } from '@react-three/drei';
+import { Float, Lightformer, OrbitControls, useGLTF } from '@react-three/drei';
 function App() {
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
-      <Canvas style={{ background: '#000' }}>
+      <Canvas style={{ background: '#fff' }}>
         <OrbitControls />
-        {/* <Stars /> */}
-        <Stars />
-        <Cloud position={[0, 0, 0]} speed={0.2} opacity={0.3} />
-        <Cloud position={[5, 2.5, -5]} speed={0.2} opacity={0.3} />
         <ambientLight intensity={0.5} />
-        <spotLight position={[10, 15, 10]} angle={0.3} />
-        <mesh position={[0, 0, 0]}>
-          <boxBufferGeometry attatch='geometry' />
-          <meshLambertMaterial attatch='material' color='orange' />
-        </mesh>
+        <spotLight
+          position={[0, 15, 0]}
+          angle={0.3}
+          penumbra={1}
+          castShadow
+          intensity={2}
+          shadow-bias={-0.0001}
+        />
+        <Porsche scale={1.6} rotation={[0, Math.PI / 5, 0]} />
       </Canvas>
     </div>
   );
 }
 
+function Porsche(props: { scale: number; rotation: number[] }) {
+  const { scene } = useGLTF('/911-transformed.glb');
+  return <primitive object={scene} {...props} />;
+}
 export default App;
